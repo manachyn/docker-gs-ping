@@ -1,0 +1,24 @@
+namespace: docker-gs-ping
+docker-gs-ping:
+  defines: runnable
+  metadata:
+    name: docker-gs-ping
+    description: A Go application that respond to HTTP requests.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    docker-gs-ping:
+      build: .
+  services:
+    http-port:
+      container: docker-gs-ping
+      port: <- $port
+      host-port: <- $port
+      publish: false
+      protocol: TCP
+      description: The application listens on this port for incoming HTTP requests.
+  variables:
+    port:
+      env: PORT
+      type: string
+      description: Port for the application to listen on for incoming HTTP requests
+      value: '8080'
