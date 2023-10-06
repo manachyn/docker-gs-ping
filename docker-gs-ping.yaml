@@ -1,0 +1,26 @@
+namespace: docker-gs-ping
+docker-gs-ping:
+  defines: runnable
+  metadata:
+    name: docker-gs-ping
+    description: >-
+      A simple Go app that responds to HTTP requests, great for checking the
+      status of your Docker setup.
+    icon: https://emojiapi.dev/api/v1/whale.svg
+  containers:
+    docker-gs-ping:
+      build: .
+  services:
+    http-port:
+      container: docker-gs-ping
+      port: <- $port
+      host-port: <- $port
+      publish: false
+      protocol: TCP
+      description: Port for HTTP connections to the server
+  variables:
+    port:
+      env: PORT
+      type: string
+      description: Port for the HTTP server to listen on
+      value: '8080'
