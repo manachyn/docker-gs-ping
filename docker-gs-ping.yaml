@@ -1,0 +1,27 @@
+namespace: docker-gs-ping
+docker-gs-ping:
+  defines: runnable
+  metadata:
+    name: docker-gs-ping
+    description: >-
+      A simple Go Echo application that serves a basic HTML content and provides
+      a health check endpoint.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    docker-gs-ping:
+      build: .
+      image: env-1753.registry.local/docker-gs-ping:main-fbee203
+  services:
+    http:
+      container: docker-gs-ping
+      port: <- $port
+      host-port: <- $port
+      publish: false
+      protocol: TCP
+      description: HTTP port for incoming requests
+  variables:
+    port:
+      env: PORT
+      type: string
+      description: Port on which the app listens for HTTP requests
+      value: '8080'
