@@ -1,0 +1,5 @@
+namespace: docker-gs-ping
+
+stack:
+  defines: group
+  members: []
