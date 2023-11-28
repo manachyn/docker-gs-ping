@@ -1,0 +1,35 @@
+namespace: docker-gs-ping
+
+docker-gs-ping:
+  defines: runnable
+  metadata:
+    name: docker-gs-ping
+    description: >-
+      A simple Go web server using the Echo framework with two routes, designed
+      to be containerized.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    docker-gs-ping:
+      image: env-2057.registry.local/docker-gs-ping:main-fbee203
+      build: .
+      dockerfile: Dockerfile.multistage
+  services:
+    http-server-port:
+      description: Port for HTTP server
+      container: docker-gs-ping
+      port: $port
+      host-port: $port
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables:
+    port:
+      env: PORT
+      type: int
+      value: 8080
+      description: The HTTP port for the web server
+
+stack:
+  defines: group
+  members:
+    - docker-gs-ping/docker-gs-ping
