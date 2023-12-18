@@ -1,0 +1,33 @@
+namespace: docker-gs-ping
+
+go-web-server:
+  defines: runnable
+  metadata:
+    name: go-web-server
+    description: A simple Go web server example for Docker's Go Language Guide.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    go-web-server:
+      image: env-4291.registry.local/go-web-server:main-fbee203
+      build: .
+      dockerfile: Dockerfile.multistage
+  services:
+    http-port:
+      description: HTTP port for incoming web requests
+      container: go-web-server
+      port: $port
+      host-port: $port
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables:
+    port:
+      env: PORT
+      type: int
+      value: 8080
+      description: The HTTP port for the Go web server
+
+stack:
+  defines: group
+  members:
+    - docker-gs-ping/go-web-server
